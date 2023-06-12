@@ -13,6 +13,7 @@ namespace Principal
 
         public NpgsqlConnection EstablecerConexion(Instancia instanciaBase)
         {
+
             NpgsqlConnection conexion = new NpgsqlConnection();
 
 
@@ -21,7 +22,7 @@ namespace Principal
                                     "password=" + instanciaBase.contrasenia + ";";
 
             //host=localhost port=5432 dbname=postgres user=postgres password=xxxxxxx sslmode=prefer connect_timeout=10
-
+            
 
             try
             {

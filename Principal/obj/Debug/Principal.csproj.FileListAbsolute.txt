@@ -44,3 +44,6 @@ C:\Users\LENOVO\source\repos\Proyecto\Principal\obj\Debug\Principal.csproj.CopyC
 C:\Users\LENOVO\source\repos\Proyecto\Principal\obj\Debug\Principal.Form_CrearBaseDatos.resources
 C:\Users\LENOVO\source\repos\Proyecto\Principal\obj\Debug\Principal.Form_CrearTabla.resources
 C:\Users\LENOVO\source\repos\Proyecto\Principal\obj\Debug\Principal.Form_CrearColumna.resources
+C:\Users\LENOVO\source\repos\Proyecto\Principal\obj\Debug\Principal.Form_ConexionesRegistradas.resources
+C:\Users\LENOVO\source\repos\Proyecto\Principal\obj\Debug\Principal.Form_CrearUsuarios.resources
+C:\Users\LENOVO\source\repos\Proyecto\Principal\obj\Debug\Principal.Form_Permisos.resources

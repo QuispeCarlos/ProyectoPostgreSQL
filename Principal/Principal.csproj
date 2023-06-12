@@ -95,6 +95,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Conexion.cs" />
+    <Compile Include="Form_ConexionesRegistradas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_ConexionesRegistradas.Designer.cs">
+      <DependentUpon>Form_ConexionesRegistradas.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form_CrearBaseDatos.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -113,11 +119,23 @@
     <Compile Include="Form_CrearTabla.Designer.cs">
       <DependentUpon>Form_CrearTabla.cs</DependentUpon>
     </Compile>
+    <Compile Include="Form_CrearUsuarios.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_CrearUsuarios.Designer.cs">
+      <DependentUpon>Form_CrearUsuarios.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form_Login.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form_Login.Designer.cs">
       <DependentUpon>Form_Login.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form_Permisos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_Permisos.Designer.cs">
+      <DependentUpon>Form_Permisos.cs</DependentUpon>
     </Compile>
     <Compile Include="Form_Principal.cs">
       <SubType>Form</SubType>
@@ -128,6 +146,9 @@
     <Compile Include="Instancia.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Form_ConexionesRegistradas.resx">
+      <DependentUpon>Form_ConexionesRegistradas.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form_CrearBaseDatos.resx">
       <DependentUpon>Form_CrearBaseDatos.cs</DependentUpon>
     </EmbeddedResource>
@@ -137,8 +158,14 @@
     <EmbeddedResource Include="Form_CrearTabla.resx">
       <DependentUpon>Form_CrearTabla.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Form_CrearUsuarios.resx">
+      <DependentUpon>Form_CrearUsuarios.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form_Login.resx">
       <DependentUpon>Form_Login.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form_Permisos.resx">
+      <DependentUpon>Form_Permisos.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form_Principal.resx">
       <DependentUpon>Form_Principal.cs</DependentUpon>

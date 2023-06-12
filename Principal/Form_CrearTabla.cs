@@ -97,10 +97,9 @@ namespace Principal
                 this.Close();
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
-                throw;
+                MessageBox.Show(e.Message);
             }
 
         }
@@ -151,10 +150,9 @@ namespace Principal
 
                     MessageBox.Show($"La tabla: {tablaAEliminar} a sido eliminada exitosamente");
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-
-                    throw;
+                    MessageBox.Show(e.Message);
                 }
             }
             if (dr == DialogResult.No)

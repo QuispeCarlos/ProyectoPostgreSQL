@@ -13,8 +13,10 @@ namespace Principal
 {
     public partial class Form_CrearBaseDatos : Form
     {
-        public Form_CrearBaseDatos()
+        private Instancia instanciaBase;
+        public Form_CrearBaseDatos(Instancia instanciaBase)
         {
+            this.instanciaBase = instanciaBase;
             InitializeComponent();
         }
 
@@ -48,8 +50,9 @@ namespace Principal
             {
                 try
                 {
+                    string str = $"server={instanciaBase.servidor}; port={instanciaBase.puerto}; database={instanciaBase.baseDatos}; user id={instanciaBase.usuario}; password={instanciaBase.contrasenia};";
 
-                    string str = "server=localhost; port=5432; database=postgres; user id=postgres; password=sa123;";
+                    //string str = "server=localhost; port=5432; database=postgres; user id=postgres; password=sa123;";
 
                     using (NpgsqlConnection connection = new NpgsqlConnection(str))
                     {
@@ -66,7 +69,7 @@ namespace Principal
                         connection.Close();
                     }
                     MessageBox.Show($"La base de datos {nombreBase} a sido creada exitosamente");
-                    this.Close();
+ 
                 }
                 catch (Exception e)
                 {

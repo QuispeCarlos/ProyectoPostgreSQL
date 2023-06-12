@@ -30,14 +30,22 @@ namespace Principal
             CargarComboBox_databases();
             CargarComboBox_groupRoles();
             CargarComboBox_tablespaces();
-            CargarLabel();
+            CargarLabelBaseActual();
+            CargarLabelUsuarioActual();
+            CargarArbolBusqueda();
         }
 
-        private void CargarLabel()
+        
+
+        private void CargarLabelBaseActual()
         {
             label_BD.Text = instanciaBase.baseDatos;
         }
 
+        private void CargarLabelUsuarioActual()
+        {
+            label_usuario.Text = instanciaBase.usuario;
+        }
         private void CargarComboBox_databases()
         {
             //string str = "server=localhost; port=5432; database=postgres; user id=postgres;password=sa123;";
@@ -103,6 +111,153 @@ namespace Principal
         }
 
 
+        private void CargarArbolBusqueda()
+        {
+            /*
+            // Crear el nodo raíz
+            TreeNode rootNode = treeView_buscador.Nodes.Add("Server");
+
+            // Establecer la cadena de conexión a la base de datos PostgreSQL
+            string cadenaConexion = $"server={instanciaBase.servidor}; port={instanciaBase.puerto}; database= {instanciaBase.baseDatos}; " +
+                                $"user id= {instanciaBase.usuario}; password= {instanciaBase.contrasenia};";
+
+            // Crear la conexión
+            NpgsqlConnection connection = new NpgsqlConnection(cadenaConexion);
+
+            try
+            {
+                // Abrir la conexión
+                connection.Open();
+
+                // Agregar el nodo "Databases"
+                TreeNode databasesNode = rootNode.Nodes.Add("Databases");
+
+                // Obtener la lista de bases de datos
+                DataTable databases = connection.GetSchema("Databases");
+
+                // Recorrer las bases de datos
+                foreach (DataRow row in databases.Rows)
+                {
+                    string databaseName = row["database_name"].ToString();
+                    TreeNode databaseNode = databasesNode.Nodes.Add(databaseName);
+
+                    try
+                    {
+                        // Cambiar la base de datos en la cadena de conexión
+                        connection.ChangeDatabase(databaseName);
+
+                        // Obtener la lista de tablas de la base de datos actual
+                        DataTable tables = connection.GetSchema("Tables");
+
+                        // Agregar el nodo "Tables" para la base de datos actual
+                        TreeNode tablesNode = databaseNode.Nodes.Add("Tables");
+
+                        // Recorrer las tablas y agregar nodos al árbol
+                        foreach (DataRow tableRow in tables.Rows)
+                        {
+                            string tableName = tableRow["TABLE_NAME"].ToString();
+                            tablesNode.Nodes.Add(tableName);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        // Manejar cualquier excepción al obtener las tablas de la base de datos actual
+                        MessageBox.Show($"Error al obtener las tablas de la base de datos {databaseName}: {ex.Message}");
+                    }
+                }
+
+                // Agregar el nodo "Login/Group Roles"
+                rootNode.Nodes.Add("Login/Group Roles");
+
+                // Agregar el nodo "Tablespaces"
+                rootNode.Nodes.Add("Tablespaces");
+            }
+            catch (Exception ex)
+            {
+                // Manejar cualquier excepción al obtener las bases de datos
+                MessageBox.Show("Error al obtener las bases de datos: " + ex.Message);
+            }
+            finally
+            {
+                // Cerrar la conexión
+                connection.Close();
+            }
+
+            // Expandir el nodo raíz y los nodos "Databases", "Login/Group Roles" y "Tablespaces"
+            rootNode.Expand();
+            rootNode.Nodes["Databases"].Expand();
+            rootNode.Nodes["Login/Group Roles"].Expand();
+            rootNode.Nodes["Tablespaces"].Expand();
+        
+    
+        }
+
+        */
+
+
+            // Establecer la cadena de conexión a la base de datos PostgreSQL
+            string cadenaConexion = $"server={instanciaBase.servidor}; port={instanciaBase.puerto}; database= {instanciaBase.baseDatos}; " +
+                                    $"user id= {instanciaBase.usuario}; password= {instanciaBase.contrasenia};";
+
+            // Crear la conexión
+            NpgsqlConnection connection = new NpgsqlConnection(cadenaConexion);
+
+            try
+            {
+                // Abrir la conexión
+                connection.Open();
+
+                // Obtener la lista de bases de datos
+                DataTable databases = connection.GetSchema("Databases");
+
+                // Recorrer las bases de datos
+                foreach (DataRow row in databases.Rows)
+                {
+                    string databaseName = row["database_name"].ToString();
+
+                    // Omitir las bases de datos "template1" y "template0"
+                    if (databaseName != "template1" && databaseName != "template0")
+                    {
+                        TreeNode databaseNode = treeView_buscador.Nodes.Add(databaseName);
+
+                        try
+                        {
+                            // Cambiar la base de datos en la cadena de conexión
+                            connection.ChangeDatabase(databaseName);
+
+                            // Obtener la lista de tablas de la base de datos actual
+                            DataTable tables = connection.GetSchema("Tables");
+
+                            // Recorrer las tablas y agregar nodos al árbol
+                            foreach (DataRow tableRow in tables.Rows)
+                            {
+                                string tableName = tableRow["TABLE_NAME"].ToString();
+                                TreeNode tableNode = databaseNode.Nodes.Add(tableName);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            // Manejar cualquier excepción al obtener las tablas de la base de datos actual
+                            MessageBox.Show($"Error al obtener las tablas de la base de datos {databaseName}: {ex.Message}");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Manejar cualquier excepción al obtener las bases de datos
+                MessageBox.Show("Error al obtener las bases de datos: " + ex.Message);
+            }
+            finally
+            {
+                // Cerrar la conexión
+                connection.Close();
+            }
+        }
+
+
+
+
         private void button_ejecutar_Click(object sender, EventArgs e)
         {
             /*
@@ -153,14 +308,17 @@ namespace Principal
 
         private void CrearBaseDeDatos()
         {
-            Form_CrearBaseDatos formBaseDatos = new Form_CrearBaseDatos();
+            Form_CrearBaseDatos formBaseDatos = new Form_CrearBaseDatos(instanciaBase);
             formBaseDatos.ShowDialog();
         }
 
         private void button_refrescar_Click(object sender, EventArgs e)
         {
             ActualizarRegistroBases();
+            ActualizarRegistroUsuarios();
         }
+
+        
 
         private void ActualizarRegistroBases()
         {
@@ -189,6 +347,38 @@ namespace Principal
                 throw;
             }
         }
+
+
+        private void ActualizarRegistroUsuarios()
+        {
+            try
+            {
+                string str = $"server={instanciaBase.servidor}; port={instanciaBase.puerto}; database={instanciaBase.baseDatos}; user id={instanciaBase.usuario}; password={instanciaBase.contrasenia};";
+
+                using (NpgsqlConnection connection = new NpgsqlConnection(str))
+                {
+                    connection.Open();
+
+                    using (NpgsqlCommand command = new NpgsqlCommand())
+                    {
+
+                        comboBox_groupRoles.Items.Clear();
+                        CargarComboBox_groupRoles();
+
+                    }
+                    connection.Close();
+                }
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+
+
 
         private void button_eliminar_Click(object sender, EventArgs e)
         {
@@ -226,6 +416,7 @@ namespace Principal
                     }
 
                     MessageBox.Show($"La base de datos: {baseAEliminar} a sido eliminada exitosamente");
+                    ActualizarRegistroBases();
                 }
                 catch (Exception e)
                 {
@@ -291,6 +482,65 @@ namespace Principal
                     conexion.Close();
                 }
             }
+        }
+
+        private void button_crearUsuariosGrupos_Click(object sender, EventArgs e)
+        {
+            CrarUsuario();
+            
+        }
+
+        private void CrarUsuario()
+        {
+            Form_CrearUsuarios formCrearUsuario = new Form_CrearUsuarios(instanciaBase);
+            formCrearUsuario.ShowDialog();
+        }
+
+        private void button_eliminarUsuariosGrupos_Click(object sender, EventArgs e)
+        {
+            EliminarUsusrio();
+        }
+
+        private void EliminarUsusrio()
+        {
+            string nombreUsuario = comboBox_groupRoles.Text;
+
+            try
+            {
+                string str = $"server={instanciaBase.servidor}; port={instanciaBase.puerto}; database={instanciaBase.baseDatos}; user id={instanciaBase.usuario}; password={instanciaBase.contrasenia};";
+
+                using (NpgsqlConnection connection = new NpgsqlConnection(str))
+                {
+                    connection.Open();
+
+                    using (NpgsqlCommand command = new NpgsqlCommand())
+                    {
+                        command.Connection = connection;
+                        command.CommandText = $"DROP ROLE {nombreUsuario};";
+
+                        command.ExecuteNonQuery();
+                    }
+                    connection.Close();
+                    ActualizarRegistroUsuarios();
+                }
+                MessageBox.Show($"El usuario: {nombreUsuario} a sido eliminado exitosamente");
+
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+        }
+
+        private void button_permisos_Click(object sender, EventArgs e)
+        {
+            OtorgarPermisos();
+        }
+
+        private void OtorgarPermisos()
+        {
+            Form_Permisos formPermisos = new Form_Permisos(instanciaBase);
+            formPermisos.ShowDialog();
         }
     }
 }

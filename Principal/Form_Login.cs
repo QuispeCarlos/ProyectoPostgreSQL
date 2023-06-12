@@ -11,8 +11,10 @@ using System.Windows.Forms;
 
 namespace Principal
 {
+    
     public partial class Form_Login : Form
     {
+        List<Instancia> listaInstancias = new List<Instancia>();
 
         Instancia instanciaBase = new Instancia();
 
@@ -29,6 +31,7 @@ namespace Principal
         private void button_ingresar_Click(object sender, EventArgs e)
         {
             Conectar();
+            
         }
 
 
@@ -51,13 +54,47 @@ namespace Principal
 
             if (conexion != null)
             {
+
+                DialogResult resultado = MessageBox.Show("¿Deseas guardar la conexión?", "Guardar conexión", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (resultado == DialogResult.Yes)
+                {
+                    Instancia nuevaInstancia = new Instancia();
+                    nuevaInstancia.servidor = textBox_servidor.Text;
+                    nuevaInstancia.baseDatos = textBox_baseDatos.Text;
+                    nuevaInstancia.usuario = textBox_uasuario.Text;
+                    nuevaInstancia.contrasenia = textBox_contrasenia.Text;
+                    nuevaInstancia.puerto = textBox_puerto.Text;
+
+                    listaInstancias.Add(nuevaInstancia);
+
+
+
+                }
+
+
                 Form_Principal formPrincipal = new Form_Principal(instanciaBase);
                 //formPrincipal.CargarArbol(instanciaBase);
                 formPrincipal.ShowDialog();
             }
 
+        }
+
+
+        public void ConectarDesdeConexiones(Instancia instanciaBase)
+        {
+            
+            textBox_servidor.Text = instanciaBase.servidor ;
+            textBox_baseDatos.Text = instanciaBase.baseDatos ;
+            textBox_uasuario.Text = instanciaBase.usuario;
+            textBox_contrasenia.Text = instanciaBase.contrasenia ;
+            textBox_puerto.Text = instanciaBase.puerto;
+            
+            Conexion conexion = new Conexion();
+
+            conexion.EstablecerConexion(instanciaBase);
 
         }
+
 
         private void button_cancelar_Click(object sender, EventArgs e)
         {
@@ -69,6 +106,11 @@ namespace Principal
             this.Close();
         }
 
-        
+
+        private void button_conexiones_Click(object sender, EventArgs e)
+        {
+            Form_ConexionesRegistradas formConexionesRegistradas = new Form_ConexionesRegistradas(listaInstancias);
+            formConexionesRegistradas.ShowDialog();
+        }
     }
 }
