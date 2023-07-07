@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Npgsql;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,7 +15,6 @@ namespace Principal
     
     public partial class Form_Login : Form
     {
-        List<Instancia> listaInstancias = new List<Instancia>();
 
         Instancia instanciaBase = new Instancia();
 
@@ -58,42 +58,55 @@ namespace Principal
                 DialogResult resultado = MessageBox.Show("¿Deseas guardar la conexión?", "Guardar conexión", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (resultado == DialogResult.Yes)
                 {
-                    Instancia nuevaInstancia = new Instancia();
-                    nuevaInstancia.servidor = textBox_servidor.Text;
-                    nuevaInstancia.baseDatos = textBox_baseDatos.Text;
-                    nuevaInstancia.usuario = textBox_uasuario.Text;
-                    nuevaInstancia.contrasenia = textBox_contrasenia.Text;
-                    nuevaInstancia.puerto = textBox_puerto.Text;
 
-                    listaInstancias.Add(nuevaInstancia);
+                    string baseUsuarios = "Usuarios";
+                    string nombreUsuario = textBox_uasuario.Text;
+                    string contraseniaUsuario = textBox_contrasenia.Text;
 
 
+                    try
+                    {
+
+                        string str = $"server={instanciaBase.servidor}; port={instanciaBase.puerto}; database={baseUsuarios}; user id={instanciaBase.usuario}; password={instanciaBase.contrasenia};";
+
+                        using (NpgsqlConnection connection = new NpgsqlConnection(str))
+                        {
+                            connection.Open();
+
+                            using (NpgsqlCommand command = new NpgsqlCommand())
+                            {
+                                command.Connection = connection;
+                                command.CommandText = $"insert into usuario values('{nombreUsuario}', '{contraseniaUsuario}');";
+
+                                command.ExecuteNonQuery();
+
+                            }
+                            connection.Close();
+                        }
+
+                        MessageBox.Show($"El usuario '{nombreUsuario}' a sido guardado exitosamente");
+
+
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(e.Message);
+                    }
 
                 }
 
 
                 Form_Principal formPrincipal = new Form_Principal(instanciaBase);
-                //formPrincipal.CargarArbol(instanciaBase);
                 formPrincipal.ShowDialog();
             }
 
         }
 
 
-        public void ConectarDesdeConexiones(Instancia instanciaBase)
-        {
-            
-            textBox_servidor.Text = instanciaBase.servidor ;
-            textBox_baseDatos.Text = instanciaBase.baseDatos ;
-            textBox_uasuario.Text = instanciaBase.usuario;
-            textBox_contrasenia.Text = instanciaBase.contrasenia ;
-            textBox_puerto.Text = instanciaBase.puerto;
-            
-            Conexion conexion = new Conexion();
+       
 
-            conexion.EstablecerConexion(instanciaBase);
 
-        }
+
 
 
         private void button_cancelar_Click(object sender, EventArgs e)
@@ -107,10 +120,6 @@ namespace Principal
         }
 
 
-        private void button_conexiones_Click(object sender, EventArgs e)
-        {
-            Form_ConexionesRegistradas formConexionesRegistradas = new Form_ConexionesRegistradas(listaInstancias);
-            formConexionesRegistradas.ShowDialog();
-        }
+
     }
 }

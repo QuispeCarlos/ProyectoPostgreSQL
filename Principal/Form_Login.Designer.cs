@@ -41,13 +41,11 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.button_conexiones = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.button_conexiones);
             this.groupBox1.Controls.Add(this.button_cancelar);
             this.groupBox1.Controls.Add(this.button_ingresar);
             this.groupBox1.Controls.Add(this.textBox_contrasenia);
@@ -69,7 +67,7 @@
             // 
             // button_cancelar
             // 
-            this.button_cancelar.Location = new System.Drawing.Point(218, 307);
+            this.button_cancelar.Location = new System.Drawing.Point(293, 307);
             this.button_cancelar.Name = "button_cancelar";
             this.button_cancelar.Size = new System.Drawing.Size(136, 37);
             this.button_cancelar.TabIndex = 11;
@@ -79,7 +77,7 @@
             // 
             // button_ingresar
             // 
-            this.button_ingresar.Location = new System.Drawing.Point(59, 307);
+            this.button_ingresar.Location = new System.Drawing.Point(128, 307);
             this.button_ingresar.Name = "button_ingresar";
             this.button_ingresar.Size = new System.Drawing.Size(136, 37);
             this.button_ingresar.TabIndex = 10;
@@ -168,16 +166,6 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Servidor:";
             // 
-            // button_conexiones
-            // 
-            this.button_conexiones.Location = new System.Drawing.Point(375, 307);
-            this.button_conexiones.Name = "button_conexiones";
-            this.button_conexiones.Size = new System.Drawing.Size(136, 37);
-            this.button_conexiones.TabIndex = 12;
-            this.button_conexiones.Text = "Conexiones";
-            this.button_conexiones.UseVisualStyleBackColor = true;
-            this.button_conexiones.Click += new System.EventHandler(this.button_conexiones_Click);
-            // 
             // Form_Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -208,6 +196,5 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button_conexiones;
     }
 }

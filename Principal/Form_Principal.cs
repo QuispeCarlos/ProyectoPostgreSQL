@@ -71,7 +71,7 @@ namespace Principal
 
         private void CargarComboBox_groupRoles()
         {
-            string str = "server=localhost; port=5432; database=postgres; user id=postgres;password=sa123;";
+            string str = $"server={instanciaBase.servidor}; port={instanciaBase.puerto}; database={instanciaBase.baseDatos}; user id={instanciaBase.usuario};password={instanciaBase.contrasenia};";
             NpgsqlConnection cn = new NpgsqlConnection();
             cn.ConnectionString = str;
             cn.Open();
@@ -92,7 +92,7 @@ namespace Principal
 
         private void CargarComboBox_tablespaces()
         {
-            string str = "server=localhost; port=5432; database=postgres; user id=postgres;password=sa123;";
+            string str = $"server={instanciaBase.servidor}; port={instanciaBase.puerto}; database={instanciaBase.baseDatos}; user id={instanciaBase.usuario};password={instanciaBase.contrasenia};";
             NpgsqlConnection cn = new NpgsqlConnection();
             cn.ConnectionString = str;
             cn.Open();
@@ -301,10 +301,6 @@ namespace Principal
 
         }
 
-        private void button_crear_Click(object sender, EventArgs e)
-        {
-            CrearBaseDeDatos();
-        }
 
         private void CrearBaseDeDatos()
         {
@@ -312,13 +308,15 @@ namespace Principal
             formBaseDatos.ShowDialog();
         }
 
-        private void button_refrescar_Click(object sender, EventArgs e)
+
+
+        public void Refrescar()
         {
             ActualizarRegistroBases();
             ActualizarRegistroUsuarios();
+            ActualizarArbol();
         }
 
-        
 
         private void ActualizarRegistroBases()
         {
@@ -375,6 +373,36 @@ namespace Principal
 
                 throw;
             }
+        }
+
+
+
+        private void ActualizarArbol()
+        {
+
+            try
+            {
+                string str = $"server={instanciaBase.servidor}; port={instanciaBase.puerto}; database={instanciaBase.baseDatos}; user id={instanciaBase.usuario}; password={instanciaBase.contrasenia};";
+
+                using (NpgsqlConnection connection = new NpgsqlConnection(str))
+                {
+                    connection.Open();
+
+                    using (NpgsqlCommand command = new NpgsqlCommand())
+                    {
+
+                        treeView_buscador.Nodes.Clear();
+                        CargarArbolBusqueda();
+
+                    }
+                    connection.Close();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
         }
 
 
@@ -541,6 +569,22 @@ namespace Principal
         {
             Form_Permisos formPermisos = new Form_Permisos(instanciaBase);
             formPermisos.ShowDialog();
+        }
+
+
+
+
+
+        // Menu contextual (clic derecho)
+
+        private void baseDeDatosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CrearBaseDeDatos();
+        }
+
+        private void refrescarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Refrescar();
         }
     }
 }

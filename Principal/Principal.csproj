@@ -95,12 +95,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Conexion.cs" />
-    <Compile Include="Form_ConexionesRegistradas.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Form_ConexionesRegistradas.Designer.cs">
-      <DependentUpon>Form_ConexionesRegistradas.cs</DependentUpon>
-    </Compile>
     <Compile Include="Form_CrearBaseDatos.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -146,9 +140,6 @@
     <Compile Include="Instancia.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Form_ConexionesRegistradas.resx">
-      <DependentUpon>Form_ConexionesRegistradas.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Form_CrearBaseDatos.resx">
       <DependentUpon>Form_CrearBaseDatos.cs</DependentUpon>
     </EmbeddedResource>
